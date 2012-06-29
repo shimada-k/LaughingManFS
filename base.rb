@@ -9,13 +9,7 @@ require 'imlib2'
 require 'LaughingEngine.rb'
 
 #TODO
-=begin
-	秒数を工夫する。現状2秒でやっている。これはこのままでいいのか？
-	やはり拡張子を工夫しないとおもしろくない。
-
-	viやemacsなど主要なエディタで試してみる
-=end
-#=====================================================
+#===================================================
 
 class LaughingFS < FuseFS::FuseDir
 
@@ -99,8 +93,8 @@ class LaughingFS < FuseFS::FuseDir
 	def size(path)
 		printf("size:%s\n", path)
 
-		# 前回contentsが呼ばれた時よりも2秒以上経過していたら
-		if(Time.now.to_i - @last_contents_called < 2)
+		# 前回contentsが呼ばれた時よりも1.5秒以上経過していたら
+		if(Time.now.to_i - @last_contents_called < 1.5)
 		then
 			@nautilus_read = true
 		else
@@ -210,11 +204,20 @@ class LaughingFS < FuseFS::FuseDir
 	def rmdir(path)
 		items = scan_path(path)
 		name = items.pop # Last is the filename.
+
 		node = items.inject(@fs) do |node, item|
 			item ? node[item] : node
 		end
+
 		node.delete(name)
 		self.save
+	end
+
+	#=========================================
+	# ファイルが実行可能かどうか判定するメソッド
+	#=========================================
+	def executable?(path)
+		true
 	end
 end
 
