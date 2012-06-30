@@ -69,7 +69,7 @@ class LaughingEngine
 			pxl.g = body[i + 1]
 			pxl.b = body[i + 2]
 
-			printf("pxl.a = %d\n", pxl.a)
+			#printf("pxl.a = %d\n", pxl.a)
 			i += 3
 
 			img.draw_pixel(pos_x, pos_y, pxl)
@@ -179,7 +179,9 @@ class LaughingEngine
 			buffer.concat(pxl.g)
 		end
 
-		#print buffer
+		printf("===============")
+		printf("%s", buffer)
+		printf("===============")
 
 		buffer
 	end

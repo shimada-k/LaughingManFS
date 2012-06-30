@@ -48,6 +48,7 @@ class LaughingFS < FuseFS::FuseDir
 	end
 
 	def directory?(path)
+		printf("directory?:%s\n", path);
 		items = scan_path(path)
 		node = items.inject(@fs) do |node, item|
 			item ? node[item] : node
@@ -56,7 +57,7 @@ class LaughingFS < FuseFS::FuseDir
 	end
 
 	def file?(path)
-		printf("file?:%s\n", path);
+		#printf("file?:%s\n", path);
 		items = scan_path(path)
 		node = items.inject(@fs) do |node, item|
 			item ? node[item] : node
@@ -72,7 +73,7 @@ class LaughingFS < FuseFS::FuseDir
 	# ファイルの読み込みを行うメソッド
 	#==================================
 	def read_file(path)
-		#printf("read_file:%s\n")
+		printf("read_file:%s\n")
 		items = scan_path(path)
 		node = items.inject(@fs) do |node, item|
 			item ? node[item] : node
@@ -175,6 +176,7 @@ class LaughingFS < FuseFS::FuseDir
 		node = items.inject(@fs) do |node, item|
 			item ? node[item] : node
 		end
+
 		node.is_a?(Hash)
 		rescue Exception => er
 			puts "Error! #{er}"
@@ -186,6 +188,7 @@ class LaughingFS < FuseFS::FuseDir
 		node = items.inject(@fs) do |node, item|
 			item ? node[item] : node
 		end
+
 		node[name] = Hash.new
 		self.save
 	end
@@ -217,6 +220,7 @@ class LaughingFS < FuseFS::FuseDir
 	# ファイルが実行可能かどうか判定するメソッド
 	#=========================================
 	def executable?(path)
+		printf("executable?:%s\n", path)
 		true
 	end
 end
